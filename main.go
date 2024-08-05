@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -49,10 +50,15 @@ func main() {
 
 	app := fiber.New()
 
-	app.Get("api/todos", getTodos)
-	app.Post("api/todos", createTodo)
-	app.Patch("api/todos/:id", updateTodos)
-	app.Delete("api/todos/:id", deleteTodos)
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:5173",
+		AllowHeaders: "Origin,Content-Type,Accept",
+	}))
+
+	app.Get("/api/todos", getTodos)
+	app.Post("/api/todos", createTodo)
+	app.Patch("/api/todos/:id", updateTodos)
+	app.Delete("/api/todos/:id", deleteTodos)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -134,8 +140,6 @@ func deleteTodos(c *fiber.Ctx) error {
 
 	filter := bson.M{"_id": ObjectID}
 	_, err = collection.DeleteOne(context.Background(), filter)
-
-	// _, err := collection.DeleteOne(context.Background(), filter)
 
 	if err != nil {
 		return err

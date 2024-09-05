@@ -13,8 +13,8 @@ const TodoList = () => {
 	const { data: todos, isLoading } = useQuery<Todo[]>({
 		queryKey: ["todos"],
 		queryFn: async () => {
-			try {
-				const res = await fetch(BASE_URL + "/todos");
+			try { 
+				const res = await fetch(BASE_URL + "/todos/",);
 				const data = await res.json();
 
 				if (!res.ok) {
@@ -26,6 +26,7 @@ const TodoList = () => {
 			}
 		},
 	});
+
 
 	return (
 		<>
@@ -64,10 +65,6 @@ const TodoList = () => {
 export default TodoList;
 
 // STARTER CODE:
-
-// import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
-// import { useState } from "react";
-// import TodoItem from "./TodoItem";
 
 // const TodoList = () => {
 // 	const [isLoading, setIsLoading] = useState(true);

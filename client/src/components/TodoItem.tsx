@@ -13,16 +13,18 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
 		mutationFn: async () => {
 			if (todo.completed) return alert("Todo is already completed");
 			try {
-				const res = await fetch(BASE_URL + `/todos/${todo._id}`, {
-					method: "Patch",
+				const res = await fetch((BASE_URL + `/todos/${todo._id}`),  {
+					method: "PATCH",
+					
 				});
-				const data = await res.json();
+				
+				const data = await res.json()
 				if (!res.ok) {
 					throw new Error(data.error || "Something went wrong");
 				}
-				return data;
+				return data
 			} catch (error) {
-				console.log(error);
+				console.log(error) 
 			}
 		},
 		onSuccess: () => {
